@@ -1,0 +1,10 @@
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "devDependencies": {
+    "babel-cli": "^6.0.0"
+  },
+  "scripts": {
+      "compile": "./node_modules/.bin/babel script.js --watch --out-file script-compiled.js"
+  }
+}
