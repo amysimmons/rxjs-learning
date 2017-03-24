@@ -6,9 +6,10 @@ I am tracking my progress [here][3], and making comments on how valuable I find 
 
 This repo contains my notes, code and resources.
 
-#### Notes from [The introduction to Reactive Programming you've been missing by Andre Staltz][1]
+### Notes from [The introduction to Reactive Programming you've been missing by Andre Staltz][1]
 
 **Streams are observables**
+
 A stream can emit three things:
 - A value
 - An error
@@ -21,14 +22,17 @@ The stream, or the observable, has functions attached to it like map and filter.
 These functions return new streams or observables. They do not modify the original. #immutability
 
 **Subscribing to a stream**
+
 We listen to the stream by subscribing to it.
 
 **Observers watch the stream**
+
 We can define functions that will execute when a value is emitted from the stream, when an erorr is emitted, and when a signal is completed.
 
 These functions are the observers.
 
 **Buffers**
+
 The buffer method periodically gathers items emitted by a source Observable into buffers, and emits these buffers as its own emissions.
 
 [1]: https://gist.github.com/staltz/868e7e9bc2a7b8c1f754
