@@ -35,6 +35,16 @@ These functions are the observers.
 
 The buffer method periodically gathers items emitted by a source Observable into buffers, and emits these buffers as its own emissions.
 
+**Observables and promises**
+
+In Rx you can convert a promise to an observable by doing
+
+```var stream = Rx.Observable.fromPromise(promise).```
+
+A Promise is simply an Observable with one single emitted value.
+
+Rx streams go beyond promises by allowing many returned values.
+
 [1]: https://gist.github.com/staltz/868e7e9bc2a7b8c1f754
 
 [2]: http://reactivex.io/tutorials.html
