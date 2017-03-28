@@ -45,6 +45,32 @@ A Promise is simply an Observable with one single emitted value.
 
 Rx streams go beyond promises by allowing many returned values.
 
+**Map and flatMap**
+
+In the who to follow example, we begin by subscribing to our response stream inside the subscribe to our request stream. The creation of one is dependent on the other.
+
+What we can do instead is create new streams out of others with functions like map.
+
+Using map we could return a stream of streams, where each emitted value is a pointer to another stream:
+
+```
+var responseMetastream = requestStream
+  .map(function(requestUrl) {
+    return Rx.Observable.fromPromise(jQuery.getJSON(requestUrl));
+  });
+```
+
+Or using flatMap we could return a stream of responses, where each emitted value is a JSON object:
+
+```
+var responseStream = requestStream
+  .flatMap(function(requestUrl) {
+    return Rx.Observable.fromPromise(jQuery.getJSON(requestUrl));
+  });
+```
+
+
+
 [1]: https://gist.github.com/staltz/868e7e9bc2a7b8c1f754
 
 [2]: http://reactivex.io/tutorials.html
