@@ -9,26 +9,20 @@
 */
 
 
-//creates a stream of urls that we want to request
+// create a stream of urls that we want to request
 var requestStream = Rx.Observable.of('https://api.github.com/users');
 
-//subscribe to, or watch, the stream
-requestStream.subscribe(function(requestUrl){
-  //execute the request
-
-  //Rx is for dealing with asynchronous data streams. So the response
-  //for the request can also be a stream, containing the data arriving at
-  //some time in the future
-  var responseStream = Rx.Observable.create(function(observer){
-    fetch(requestUrl).then(function(response){
-       return response.json()
-    }).then(function(dataAsJson){
-        //process the json data
-        observer.next(dataAsJson);
+var responseStream = requestStream
+  .flatMap(function (requestUrl) { // return a stream of responses
+    fetch(requestUrl).then(function(response){ //execute the request
+        return response.json()
+    }).then(function (dataAsJson) {
+        return dataAsJson;
     })
-  });
+  })
 
-  responseStream.subscribe(function(response){
-    //do something with the response
-  });
-});
+responseStream.subscribe(function(response){ // subscribe to, or watch, the stream of responses
+  console.log(response)
+})
+
+//Error: Uncaught TypeError: You provided 'undefined' where a stream was expected. You can provide an Observable, Promise, Array, or Iterable.
