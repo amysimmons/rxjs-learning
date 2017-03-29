@@ -69,6 +69,17 @@ var responseStream = requestStream
   });
 ```
 
+**Merging streams**
+
+In the who to follow example, we created a stream of events for when the user clicks the refresh button. This stream would return request urls with offsets.
+
+But in doing that we lost the initial api request on app startup.
+
+To solve this you can have two streams and merge them together with either .merge(Rx.Observable.of(...)).
+
+Or you can use .startWith(x).
+
+We used .startWith(x) in this case because we just need the first value in our stream to be a request url emitted on startup.
 
 
 [1]: https://gist.github.com/staltz/868e7e9bc2a7b8c1f754

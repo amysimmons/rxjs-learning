@@ -8,9 +8,16 @@
 - Each row displays the account's avatar and links to their page
 */
 
+//listen to clicks on the refresh button
+var refreshButton = document.querySelector('.refresh');
+var refreshClickStream = Rx.Observable.fromEvent(refreshButton, 'click');
 
-// create a stream of urls that we want to request
-var requestStream = Rx.Observable.of('https://api.github.com/users');
+// on each click of the refresh button, and on startup, generate a new api url
+var requestStream = refreshClickStream.startWith('startup click')
+  .map(function() {
+    var randomOffset = Math.floor(Math.random()*500);
+    return 'https://api.github.com/users?since=' + randomOffset; //since is the id of the last user that you've seen
+  });
 
 var responseStream = requestStream
   .flatMap(function (requestUrl) { // return a stream of responses
