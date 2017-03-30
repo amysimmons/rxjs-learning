@@ -8,11 +8,14 @@
 - Each row displays the account's avatar and links to their page
 */
 
-//listen to clicks on the refresh button
+// get dom elements
+var suggestions = document.querySelector('.suggestions');
 var refreshButton = document.querySelector('.refresh');
+
+//listen to clicks on the refresh button
 var refreshClickStream = Rx.Observable.fromEvent(refreshButton, 'click');
 
-// on each click of the refresh button, and on startup, generate a new api url
+// on each click of the refresh button, and on app startup, generate a new api url
 var requestStream = refreshClickStream.startWith('startup click')
   .map(function() {
     var randomOffset = Math.floor(Math.random()*500);
@@ -26,6 +29,50 @@ var responseStream = requestStream
     })
   })
 
-responseStream.subscribe(function(response){ // subscribe to, or watch, the stream of responses
-  console.log(response)
+// set up the render function
+var render = function (suggestionNumber, user) {
+  if (!user) {
+    // hide the suggestion DOM element
+    suggestions.children[suggestionNumber].classList.add('is-hidden')
+    return;
+  }
+
+  // show the suggestion DOM element
+  // and render the data
+  var userLoginEl = document.createElement('div');
+  userLoginEl.append(user.login);
+  suggestions.append(userLoginEl);
+}
+
+var suggestion1Stream = responseStream
+  .map(function(users){
+    return users[0];
+  })
+  .merge(refreshClickStream.map(function(){return null;})) //on refresh, clear the suggestions
+
+suggestion1Stream.subscribe(function(suggestion) {
+  render(0, suggestion);
 })
+
+var suggestion2Stream = responseStream
+  .map(function(users){
+    return users[1];
+  })
+  .merge(refreshClickStream.map(function(){return null;})) //on refresh, clear the suggestions
+
+
+suggestion2Stream.subscribe(function(suggestion) {
+  render(1, suggestion);
+})
+
+var suggestion3Stream = responseStream
+  .map(function(users){
+    return users[2];
+  })
+  .merge(refreshClickStream.map(function(){return null;})) //on refresh, clear the suggestions
+
+suggestion3Stream.subscribe(function(suggestion) {
+  render(2, suggestion);
+})
+
+
