@@ -9,11 +9,21 @@
 */
 
 // get dom elements
-var suggestions = document.querySelector('.suggestions');
 var refreshButton = document.querySelector('.refresh');
+var suggestion1 = document.querySelector('.suggestion-1');
+var suggestion2 = document.querySelector('.suggestion-2');
+var suggestion3 = document.querySelector('.suggestion-3');
+var close1Button = document.querySelector('.close-1');
+var close2Button = document.querySelector('.close-2');
+var close3Button = document.querySelector('.close-3');
 
 //listen to clicks on the refresh button
 var refreshClickStream = Rx.Observable.fromEvent(refreshButton, 'click');
+
+//listen to clicks on the close buttons
+var close1ClickStream = Rx.Observable.fromEvent(close1Button, 'click');
+var close2ClickStream = Rx.Observable.fromEvent(close2Button, 'click');
+var close3ClickStream = Rx.Observable.fromEvent(close3Button, 'click');
 
 // on each click of the refresh button, and on app startup, generate a new api url
 var requestStream = refreshClickStream.startWith('startup click')
@@ -30,28 +40,27 @@ var responseStream = requestStream
   })
 
 // set up the render function
-var render = function (suggestionNumber, user) {
-  if (!user) {
-    // hide the suggestion DOM element
-    suggestions.children[suggestionNumber].classList.add('is-hidden')
+var render = function (into, data) {
+  if (!data) {
     return;
   }
-
-  // show the suggestion DOM element
-  // and render the data
-  var userLoginEl = document.createElement('div');
-  userLoginEl.append(user.login);
-  suggestions.append(userLoginEl);
+  into.innerHTML = data.login
 }
 
-var suggestion1Stream = responseStream
-  .map(function(users){
-    return users[0];
-  })
+// the startWith startup click is necessary because only
+// when the two streams have produced a value can the
+// combinedLatest produce one
+var suggestion1Stream = close1ClickStream.startWith('startup click')
+  .combineLatest(responseStream,
+    function(click, users) {1
+      return users[Math.floor(Math.random()*users.length)];
+    }
+  )
   .merge(refreshClickStream.map(function(){return null;})) //on refresh, clear the suggestions
+  // .startWith(null)
 
 suggestion1Stream.subscribe(function(suggestion) {
-  render(0, suggestion);
+  render(suggestion1, suggestion);
 })
 
 var suggestion2Stream = responseStream
@@ -62,7 +71,7 @@ var suggestion2Stream = responseStream
 
 
 suggestion2Stream.subscribe(function(suggestion) {
-  render(1, suggestion);
+  render(suggestion2, suggestion);
 })
 
 var suggestion3Stream = responseStream
@@ -72,7 +81,7 @@ var suggestion3Stream = responseStream
   .merge(refreshClickStream.map(function(){return null;})) //on refresh, clear the suggestions
 
 suggestion3Stream.subscribe(function(suggestion) {
-  render(2, suggestion);
+  render(suggestion3, suggestion);
 })
 
 

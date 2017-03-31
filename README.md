@@ -81,6 +81,12 @@ Or you can use .startWith(x).
 
 We used .startWith(x) in this case because we just need the first value in our stream to be a request url emitted on startup.
 
+**combineLatest**
+
+combineLatest takes two streams as inputs, and whenever either stream emits a value, it joins the two most recently emitted values from both streams and outputs the values.
+
+
+
 
 [1]: https://gist.github.com/staltz/868e7e9bc2a7b8c1f754
 
