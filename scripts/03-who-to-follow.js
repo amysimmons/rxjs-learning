@@ -57,27 +57,29 @@ var suggestion1Stream = close1ClickStream.startWith('startup click')
     }
   )
   .merge(refreshClickStream.map(function(){return null;})) //on refresh, clear the suggestions
-  // .startWith(null)
 
 suggestion1Stream.subscribe(function(suggestion) {
   render(suggestion1, suggestion);
 })
 
-var suggestion2Stream = responseStream
-  .map(function(users){
-    return users[1];
-  })
+var suggestion2Stream = close2ClickStream.startWith('startup click')
+  .combineLatest(responseStream,
+    function(click, users) {1
+      return users[Math.floor(Math.random()*users.length)];
+    }
+  )
   .merge(refreshClickStream.map(function(){return null;})) //on refresh, clear the suggestions
-
 
 suggestion2Stream.subscribe(function(suggestion) {
   render(suggestion2, suggestion);
 })
 
-var suggestion3Stream = responseStream
-  .map(function(users){
-    return users[2];
-  })
+var suggestion3Stream = close3ClickStream.startWith('startup click')
+  .combineLatest(responseStream,
+    function(click, users) {1
+      return users[Math.floor(Math.random()*users.length)];
+    }
+  )
   .merge(refreshClickStream.map(function(){return null;})) //on refresh, clear the suggestions
 
 suggestion3Stream.subscribe(function(suggestion) {
