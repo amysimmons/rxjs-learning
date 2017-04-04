@@ -85,6 +85,26 @@ We used .startWith(x) in this case because we just need the first value in our s
 
 combineLatest takes two streams as inputs, and whenever either stream emits a value, it joins the two most recently emitted values from both streams and outputs the values.
 
+If one of the streams hasn't emitted anything, combineLatest() cannot produce a value on the output stream.
+
+This is why in the who to follow example, we simulated a button click on start up with startWith('startup, click')
+
+### Notes from [Creating and Subscribing to Simple Observable Sequences][3]
+
+**Cold vs Hot Observables**
+
+Cold observables:
+
+- start running upon subscription, i.e., the observable sequence only starts pushing values to the observers when Subscribe is called.
+- values are not shared among subscribers
+
+Hot observables:
+
+- produce values even before a subscription is active, eg mouse move events or stock tickers
+- When an observer subscribes to a hot observable sequence, it will get all values in the stream that are emitted after it subscribes
+- The hot observable sequence is shared among all subscribers
+
+Hot observables replayed:
 
 
 
@@ -94,4 +114,5 @@ combineLatest takes two streams as inputs, and whenever either stream emits a va
 
 [3]: https://docs.google.com/spreadsheets/d/1l4uFkSI15vMgNfXrdAl-QjQ_bHjAkXAKh0Dxsz5qgoA/edit?usp=sharing
 
+[4]: https://github.com/Reactive-Extensions/RxJS/blob/master/doc/gettingstarted/creating.md#cold-vs-hot-observables
 ---
