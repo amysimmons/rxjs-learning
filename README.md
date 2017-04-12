@@ -89,7 +89,7 @@ If one of the streams hasn't emitted anything, combineLatest() cannot produce a 
 
 This is why in the who to follow example, we simulated a button click on start up with startWith('startup, click')
 
-### Notes from [Creating and Subscribing to Simple Observable Sequences][3]
+### Notes from [Creating and Subscribing to Simple Observable Sequences][4]
 
 **Cold vs Hot Observables**
 
@@ -104,8 +104,15 @@ Hot observables:
 - When an observer subscribes to a hot observable sequence, it will get all values in the stream that are emitted after it subscribes
 - The hot observable sequence is shared among all subscribers
 
-Hot observables replayed:
+### Notes from [RxJS Observables vs Promises][5]
 
+Observables are lazy and promises are not.
+
+If we comment out the promise.then() and the source.forEach() in the observables-v-promises code, the promise will run and the observable will not.
+
+A promise is always going to fire the block inside of it, or the asynchronous call.
+
+An observable can emobody its own setup and teardown. So unlike promoses, they can be cancelled.
 
 
 [1]: https://gist.github.com/staltz/868e7e9bc2a7b8c1f754
@@ -115,4 +122,6 @@ Hot observables replayed:
 [3]: https://docs.google.com/spreadsheets/d/1l4uFkSI15vMgNfXrdAl-QjQ_bHjAkXAKh0Dxsz5qgoA/edit?usp=sharing
 
 [4]: https://github.com/Reactive-Extensions/RxJS/blob/master/doc/gettingstarted/creating.md#cold-vs-hot-observables
+
+[5]: https://egghead.io/lessons/rxjs-rxjs-observables-vs-promises
 ---
