@@ -108,12 +108,13 @@ Hot observables:
 
 Observables are lazy and promises are not.
 
-If we comment out the promise.then() and the source.forEach() in the observables-v-promises code, the promise will run and the observable will not.
-
 A promise is always going to fire the block inside of it, or the asynchronous call.
 
 An observable can emobody its own setup and teardown. So unlike promoses, they can be cancelled.
 
+In the example, 06-observables-v-promises, unsubscribe is used to tear down the observable before the subscribe function is executed.
+
+Note: the downside of using .unsibscribe() is that your observable never actually [completes][6]. Ben Lesh recommends using other operators like .takeUntil(), .take(n), etc to kill an observable stream.
 
 [1]: https://gist.github.com/staltz/868e7e9bc2a7b8c1f754
 
@@ -124,4 +125,5 @@ An observable can emobody its own setup and teardown. So unlike promoses, they c
 [4]: https://github.com/Reactive-Extensions/RxJS/blob/master/doc/gettingstarted/creating.md#cold-vs-hot-observables
 
 [5]: https://egghead.io/lessons/rxjs-rxjs-observables-vs-promises
----
+
+[6]: https://medium.com/@benlesh/rxjs-dont-unsubscribe-6753ed4fda87
