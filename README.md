@@ -114,7 +114,43 @@ An observable can emobody its own setup and teardown. So unlike promoses, they c
 
 In the example, 06-observables-v-promises, unsubscribe is used to tear down the observable before the subscribe function is executed.
 
-Note: the downside of using .unsibscribe() is that your observable never actually [completes][6]. Ben Lesh recommends using other operators like .takeUntil(), .take(n), etc to kill an observable stream.
+Note: the downside of using .unsubscribe() is that your observable never actually [completes][6]. Ben Lesh recommends using other operators like .takeUntil(), .take(n), etc to kill an observable stream.
+
+### Notes from [Netflix JavaScript Talks - Async JavaScript with Reactive Extensions][7]
+
+Talk by Jafar Husain, technical lead at Netflix.
+
+With asynchronous programming in JavaScript in 2014, Netflix encountered the following problems:
+
+**Callback hell:**
+
+If I have two callbakcs that are both in flight and I want to wait til they are both finished, the only way to do that is to introduce a variable, and to track the state of both of those callbacks.
+
+It gets difficuly to scale an app that way because you add state, which needs to be maintained.
+
+Then you add more state to deal with exceptions.
+
+And there's the risk of memory leaks. You add an event listener to a cancel button and then forget to unsubscribe.
+
+**Design patterns:**
+
+The iterator design pattern:
+
+With the iterator pattern you allow a consumer to pull data from a collection. You ask the data structure for an iterator and then you ask for the next item for that iterator, and you keep asking for more items until there is no more data.
+
+The observer design pattern:
+
+A producer sends data to a consumer, one item at a time.
+
+Both patterns are about progressively sending information to the consumer. But with the iterator pattern, the consumer is in control. With the Observer pattern, you give a callback to a data producer and it calls you again and again.
+
+**Observables**
+
+An observable is a collection of items over time.
+
+They are capable of modelling events, data requests and animations.
+
+Up to 14.19
 
 [1]: https://gist.github.com/staltz/868e7e9bc2a7b8c1f754
 
@@ -127,3 +163,6 @@ Note: the downside of using .unsibscribe() is that your observable never actuall
 [5]: https://egghead.io/lessons/rxjs-rxjs-observables-vs-promises
 
 [6]: https://medium.com/@benlesh/rxjs-dont-unsubscribe-6753ed4fda87
+
+[7]: https://www.youtube.com/watch?v=XRYN2xt11Ek
+
