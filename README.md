@@ -150,7 +150,29 @@ An observable is a collection of items over time.
 
 They are capable of modelling events, data requests and animations.
 
-Up to 14.19
+**takeUntil()**
+
+takeUntil means the source event stream will be listened to until the stop event stream fires.
+
+takeUntil creates a new collection from another collection, just like map and filter.
+
+```
+{...1...2.........3}.takeUntil(
+{.............4}
+)
+
+{...1...2...}
+```
+
+This is beneficial because, by allowing observables to say 'I'm done' or 'I've completed', they can free your subscription at the same time.
+
+Don't unsubscribe from events. Complete them when another event has completed. Then the clean up is done for us.
+
+**Netflix search**
+
+21.56
+
+
 
 [1]: https://gist.github.com/staltz/868e7e9bc2a7b8c1f754
 
