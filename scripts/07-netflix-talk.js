@@ -24,19 +24,3 @@ var subscription = mouseMoves.subscribe( //subscribe
   () => console.log('complete')
 );
 
-// Netflix search
-
-var searchResultSets =
-  keyPresses.
-    throttle(250).
-    map(key =>
-      getJSON("/searchResults?q=" + input.value).
-        retry(3).
-        takeUntil(keyPresses)).
-    concatAll();
-
-searchResultSets.forEach(
-  resultSet => updateSearchResults(resultSet),
-  error => showMessage("server appears to be down")
-)
-

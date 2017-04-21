@@ -53,7 +53,7 @@ What we can do instead is create new streams out of others with functions like m
 
 Using map we could return a stream of streams, where each emitted value is a pointer to another stream:
 
-```
+```javascript
 var responseMetastream = requestStream
   .map(function(requestUrl) {
     return Rx.Observable.fromPromise(jQuery.getJSON(requestUrl));
@@ -62,7 +62,7 @@ var responseMetastream = requestStream
 
 Or using flatMap we could return a stream of responses, where each emitted value is a JSON object:
 
-```
+```javascript
 var responseStream = requestStream
   .flatMap(function(requestUrl) {
     return Rx.Observable.fromPromise(jQuery.getJSON(requestUrl));
@@ -156,7 +156,7 @@ takeUntil means the source event stream will be listened to until the stop event
 
 takeUntil creates a new collection from another collection, just like map and filter.
 
-```
+```javascript
 {...1...2.........3}.takeUntil(
 {.............4}
 )
@@ -168,10 +168,47 @@ This is beneficial because, by allowing observables to say 'I'm done' or 'I've c
 
 Don't unsubscribe from events. Complete them when another event has completed. Then the clean up is done for us.
 
-**Netflix search**
+**Netflix example code**
 
-21.56
+Search results:
 
+```javascript
+var searchResultSets =
+  keyPresses. //keypresses collection
+    throttle(250).
+    map(key =>
+      getJSON("/searchResults?q=" + input.value).
+        retry(3). //allows for 3 errors before fwding it along
+        takeUntil(keyPresses)). //if they type a, then b, it will take ab
+    concatAll();
+
+searchResultSets.forEach(
+  resultSet => updateSearchResults(resultSet),
+  error => showMessage("server appears to be down")
+)
+
+```
+
+Player with Observable:
+
+```javascript
+var authorizations =
+  player.
+    init(). //listen for all intializations
+    map(() => //map over them
+      playAttempts. //listen for all attempts to play a movie
+        map(movieId => //map over them
+          player.authorize(movieId). //authorize the movie
+            retry(3).
+            takeUntil(cancels)). //take until the user cancels playing
+        concatAll())).
+    concatAll();
+
+    authorizations.forEach(
+      license => player.play(license),
+      error => showDialog("Sorry, can't play rightnow"))
+
+```
 
 
 [1]: https://gist.github.com/staltz/868e7e9bc2a7b8c1f754
