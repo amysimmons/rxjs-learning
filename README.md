@@ -210,6 +210,9 @@ var authorizations =
 
 ```
 
+### Notes from [What Every Hipster Should Know About Functional Reactive Programming][8]
+
+
 
 [1]: https://gist.github.com/staltz/868e7e9bc2a7b8c1f754
 
@@ -224,4 +227,6 @@ var authorizations =
 [6]: https://medium.com/@benlesh/rxjs-dont-unsubscribe-6753ed4fda87
 
 [7]: https://www.youtube.com/watch?v=XRYN2xt11Ek
+
+[8]: https://www.infoq.com/presentations/game-functional-reactive-programming
 
