@@ -212,6 +212,66 @@ var authorizations =
 
 ### Notes from [What Every Hipster Should Know About Functional Reactive Programming][8]
 
+Bodil covered operators like zip, scan, interval and flatMap. She also covered RX Subjects.
+
+She created a reactive game from scratch in her talk with RxJS. Well worth watching.
+
+### Notes from [Overview of Reactive Programming][9]
+
+**The iterator pattern**
+
+The consumer asks the producer of an iterator for data, and pulls the values, one at a time, out of the iterator.
+
+The producer could throw an error, or say that there was no more data.
+
+The consumer is in control of pulling data.
+
+**The observer pattern**
+
+The observer pattern is a way for a producer to give a consumer data one item at a time.
+
+With the observer pattern the producer is in control, it decides when it will push data.
+
+The producer is in control of pushing data.
+
+**Reactive Extensions (Rx)**
+
+Reactive Extensions is about unifiying the iterator pattern with the observable pattern.
+
+The observer pattern is bascially events everywhere. That's why it's called reactive programming. It's like coding when someone is throwing golf balls (or events) at you. You always need to be ready to react to them.
+
+Reactive extensions introduces a new data type called the Observable, which it says is the right way to model events.
+In addition to the Observable pushing the data, it can now tell you if there was an error, or if the stream of data was complete.
+
+This means we can now use operators like map, filter, reduce, merge, zip - this was how we used to transform streams of data that we would pull - we can now use these on streams of data that can be pushed to us.
+
+This means you can evaluate the data in real time.
+
+As the data comes in, it can be filtered. It doesn't get stored anywhere. It just gets passed on. The data is like a hot potato, nobody holds on to it.
+
+**Rx and Stateless architecture**
+
+You can think of the middle tier as one big pure function. It's all data in, we don't mutate the data, we output new data after transforming it. So it's like one big map operation over a series of input data sources.
+
+At Netflix we don't need state modification on the middle tier.
+
+We model all of these asynchronous requests as observables. We use the operators to write a query to combine all of those observables into one single ovservable and modify it so it's exactly the data stream we want to output, which might be as simply as a single json object within an obserbale, then we forEach over that observable and output it to the stream.
+
+So the entirety of our code is fully stateless. We only state at the edges when we read off a stream and when we push out to a stream.
+
+All the code for composing together the observables, maps, filters, reduces, is all entirely stateless.
+
+**Why Reactive Programming?**
+
+The idea is to serve the consumer faster.
+
+Take data as it arrives and immediately output an answer.
+
+This means we allocate less memory to store intemediary results.
+
+We can just write the query and transform data as it comes in.
+
+So there are less places we need to store data.
 
 
 [1]: https://gist.github.com/staltz/868e7e9bc2a7b8c1f754
@@ -229,4 +289,6 @@ var authorizations =
 [7]: https://www.youtube.com/watch?v=XRYN2xt11Ek
 
 [8]: https://www.infoq.com/presentations/game-functional-reactive-programming
+
+[9]: https://hackhands.com/overview-of-reactive-programming/
 
